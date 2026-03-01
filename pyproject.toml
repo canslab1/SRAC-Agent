@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "srac-agent"
+version = "1.0.0"
+description = "Self-Reputation Awareness Component in Evolutionary Spatial IPD Game"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "CANS Lab"},
+]
+keywords = [
+    "game-theory",
+    "prisoners-dilemma",
+    "multi-agent-system",
+    "evolutionary-computation",
+    "reputation",
+    "spatial-game",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "numpy>=1.20.0",
+    "scipy>=1.7.0",
+    "matplotlib>=3.4.0",
+    "networkx>=2.6.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/canslab1/SRAC-Agent"
+Repository = "https://github.com/canslab1/SRAC-Agent"
+Issues = "https://github.com/canslab1/SRAC-Agent/issues"
+
+[project.scripts]
+srac-agent = "main:main"
+
+[tool.setuptools.packages.find]
+include = ["srac_ipd*"]
