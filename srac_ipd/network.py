@@ -214,23 +214,6 @@ def get_neighbors(G: nx.Graph, row: int, col: int) -> List[Tuple[int, int]]:
     return list(G.neighbors((row, col)))
 
 
-def get_neighbor_count(G: nx.Graph, row: int, col: int) -> int:
-    """
-    Get the number of neighbors for a given node.
-
-    Corresponds to Java: myCAN.board[i][j].size()
-
-    Args:
-        G: The network graph
-        row: Node row position
-        col: Node column position
-
-    Returns:
-        Number of neighbors (degree of the node)
-    """
-    return G.degree((row, col))
-
-
 def get_network_info(G: nx.Graph) -> dict:
     """
     Get summary statistics about the network topology.

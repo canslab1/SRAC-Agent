@@ -39,10 +39,9 @@ Performance optimization notes (Python-specific):
 
 import random as _random
 import numpy as np
-from typing import List, Tuple, Optional
+from typing import List, Tuple
 
 from .agent import Agent
-from .parameters import PAYOFF_MATRIX
 
 # ---------------------------------------------------------------------------
 # Precomputed payoff lookup: _PAY[my_action][opponent_action]

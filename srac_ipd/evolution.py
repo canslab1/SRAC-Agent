@@ -945,15 +945,3 @@ class EvolutionEngine:
                 self._clear_real_rep()
 
             yield stats
-
-    def run_complete(self) -> List[dict]:
-        """
-        Run the complete evolution and return all generation statistics.
-
-        Convenience method that consumes the generator from run().
-        Useful for batch experiments where no GUI update is needed.
-
-        Returns:
-            List of statistics dictionaries, one per generation
-        """
-        return list(self.run())

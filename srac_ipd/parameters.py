@@ -19,9 +19,7 @@ Conversion notes:
 """
 
 import copy
-from dataclasses import dataclass, field
-from typing import List, Optional
-import numpy as np
+from dataclasses import dataclass
 
 # =============================================================================
 # Strategy Labels
@@ -48,27 +46,6 @@ STRATEGY_LABELS = {
     14: "S14",      # 1110
     15: "ALL-D",    # 1111 -- Always Defect (Scoundrel, S)
 }
-
-# Binary string representations for all 16 strategies
-# (Java: Parameter.StrategyValue)
-STRATEGY_BINARY = [format(i, '04b') for i in range(16)]
-
-# =============================================================================
-# IPD Payoff Matrix Constants
-# (Java: hardcoded in EvoThread_CA.Fitness_Calculas)
-# Standard Prisoner's Dilemma: T > R > P > S and 2R > T + S
-# =============================================================================
-PAYOFF_R = 3  # Reward for mutual cooperation (CC)
-PAYOFF_T = 5  # Temptation to defect (DC -- defector's payoff)
-PAYOFF_S = 0  # Sucker's payoff (CD -- cooperator's payoff when opponent defects)
-PAYOFF_P = 1  # Punishment for mutual defection (DD)
-
-# Payoff matrix: payoff_matrix[my_action][opponent_action]
-# Action: 0 = Cooperate, 1 = Defect
-PAYOFF_MATRIX = np.array([
-    [PAYOFF_R, PAYOFF_S],  # I cooperate: [CC, CD]
-    [PAYOFF_T, PAYOFF_P],  # I defect:    [DC, DD]
-], dtype=int)
 
 # =============================================================================
 # Color Palettes
@@ -117,43 +94,9 @@ EXPERIMENT_COLORS = [
     '#FFFF00', '#00FFFF', '#FF00FF', '#FFFFFF',
 ]
 
-# [Removed] PAPER_5_COLORS (Java: Parameter.myColor4)
-# Was ['#000000', '#00FF00', '#FFFF00', '#00FFFF', '#FF00FF'] for the
-# 5-strategy paper-format chart (DiagramFrame.Statistic7, types 9/10).
-# Removed because Java also commented out the corresponding menu items:
-#   MyMenuBar.java line 62-63: //setMenuItem(experiment,"Load Avg E_CA_5/SW_5",ml);
-
 # Colors for paper-format 4-strategy chart (Java: Parameter.myColor5)
 # ALL-C (Yellow), TFT (Green), PAVLOV (Blue), ALL-D (Black)
 PAPER_4_COLORS = ['#FFFF00', '#00FF00', '#0000FF', '#000000']
-
-# =============================================================================
-# Default Parameter Names and Values for GUI
-# (Java: Parameter.paraName, Parameter.paraValue)
-# =============================================================================
-DEFAULT_PARAM_NAMES = [
-    "Board Size",       # Grid dimension (W = H = BoardSize)
-    "Memory Length",    # Agent memory capacity (c)
-    "Strategy Length",  # Chromosome length = 2^(2*c)
-    "IPD Rounds",       # Number of PD rounds per opponent per generation (q)
-    "Generations",      # Total evolutionary generations (MAX_G)
-    "Mutation Rate",    # Pm
-    "Crossover Rate",   # Pc
-    "Num of Agent",     # v = BoardSize^2
-    "Simulation Name",  # Name of the simulation
-]
-
-DEFAULT_PARAM_VALUES = [
-    "50",       # BoardSize
-    "1",        # MemoryLength
-    "4",        # StrategyLength
-    "100",      # Times (IPD rounds)
-    "100",      # Generations
-    "0.01",     # Mutation_Rate
-    "0.7",      # Crossover_Rate
-    "2500",     # NumOfAgent
-    "Sim1",     # SimName
-]
 
 
 # =============================================================================

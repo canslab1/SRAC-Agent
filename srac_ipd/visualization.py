@@ -26,7 +26,6 @@ Conversion notes:
 import numpy as np
 import matplotlib
 matplotlib.use('TkAgg')  # Use Tk backend for GUI integration
-import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.figure import Figure
 from typing import List, Optional, Tuple

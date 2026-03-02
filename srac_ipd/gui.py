@@ -37,13 +37,13 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.figure import Figure
 from matplotlib.colors import ListedColormap
 
-from .parameters import SimParameters, STRATEGY_COLORS, STRATEGY_LABELS
-from .agent import Agent, create_agent_grid, copy_agent_grid
-from .network import create_can, create_swn, get_neighbors, get_network_info
+from .parameters import SimParameters, STRATEGY_COLORS
+from .agent import create_agent_grid
+from .network import create_can, create_swn
 from .evolution import EvolutionEngine
 from .statistics import (compute_strategy_counts, compute_fitness_quartiles,
                          compute_avg_fitness, extract_four_strategies)
-from .visualization import (create_lattice_figure, create_strategy_dynamics_chart,
+from .visualization import (create_strategy_dynamics_chart,
                             create_four_strategy_chart, create_avg_fitness_chart,
                             create_fitness_quartile_chart)
 

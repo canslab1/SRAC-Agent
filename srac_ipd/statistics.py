@@ -10,13 +10,7 @@ This module computes various statistics from evolution history data:
   1. Strategy population counts per generation (16 strategies)
   2. Top/bottom 25% average fitness per generation
   3. Average fitness per generation
-  8. Paper-format 4-strategy subset (ALL-C, TFT, PAVLOV, ALL-D)
-
-Note: The following were removed because the corresponding Java menu items
-are commented out (i.e. never called in the Java version):
-  4. [Removed] Total fitness per generation (Java Statistic4 / Diagram4)
-  5. [Removed] Per-experiment total fitness (Java Statistic5, only from disabled Experiment_CA/SW)
-  7. [Removed] Paper-format 5-strategy subset (Java Statistic7 / Load Avg E_CA_5/SW_5)
+  4. Paper-format 4-strategy subset (ALL-C, TFT, PAVLOV, ALL-D)
 
 Conversion notes:
   - Java computes statistics inside DiagramFrame constructors and Statistic*()
@@ -29,9 +23,7 @@ Conversion notes:
 """
 
 import numpy as np
-from typing import List, Optional
-
-from .agent import Agent
+from typing import List
 
 
 def compute_strategy_counts(history: List[np.ndarray], strategy_length: int = 4) -> np.ndarray:
@@ -184,14 +176,6 @@ def compute_avg_fitness(history: List[np.ndarray], num_agents: int = 2500) -> np
     return avg_data
 
 
-# [Removed] compute_total_fitness()
-# Corresponded to Java DiagramFrame.Statistic4 (Total Fitness per generation).
-# Removed because Java version also commented out this chart:
-#   MyMenuBar.java line 76: //setMenuItem(analysis,"Diagram4",ml);
-# If needed in the future, simply sum all agent fitness per generation
-# without dividing by num_agents (unlike compute_avg_fitness which divides).
-
-
 def extract_four_strategies(counts: np.ndarray) -> np.ndarray:
     """
     Extract the four key strategies (ALL-C, TFT, PAVLOV, ALL-D) from full counts.
@@ -225,14 +209,3 @@ def extract_four_strategies(counts: np.ndarray) -> np.ndarray:
     four[:, 2] = counts[:, 6]   # PAVLOV (index 6)
     four[:, 3] = counts[:, 15]  # ALL-D  (index 15)
     return four
-
-
-# [Removed] extract_five_strategies()
-# Corresponded to Java DiagramFrame.Statistic7 (5-strategy paper-format chart).
-# Extracted indices [0, 3, 5, 6, 7] = [ALL-C, S3, TFT, PAVLOV, S7]
-# with Java Parameter.myColor4 (5 colors: Black, Green, Yellow, Cyan, Magenta).
-# Removed because Java version also commented out the menu items:
-#   MyMenuBar.java line 62: //setMenuItem(experiment,"Load Avg E_CA_5",ml);
-#   MyMenuBar.java line 63: //setMenuItem(experiment,"Load Avg E_SW_5",ml);
-# If needed in the future, extract counts[:, [0, 3, 5, 6, 7]] from
-# the full 16-strategy counts array.
