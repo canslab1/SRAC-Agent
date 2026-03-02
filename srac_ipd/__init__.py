@@ -22,5 +22,5 @@ Modules:
     gui           -- Tkinter GUI (Java: SimWorld.java, SimFrame.java, etc.)
 """
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 __author__ = "Converted from Java by Claude; Original: HikiChen, NCTU CIS"

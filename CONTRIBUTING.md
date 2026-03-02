@@ -52,15 +52,31 @@ python main.py  # Verify the GUI launches correctly
 - Use type hints where practical.
 - Keep functions focused and reasonably sized.
 - Document non-obvious algorithms with comments referencing the paper or Java source.
+- Visualization functions should return `matplotlib.figure.Figure` objects for GUI embedding.
+
+## Project Architecture
+
+| Module | Responsibility |
+|--------|---------------|
+| `parameters.py` | All configurable constants and the `SimParameters` dataclass |
+| `agent.py` | Agent model with binary chromosome strategy |
+| `network.py` | CA and Small-World network topology construction |
+| `ipd_game.py` | IPD game engine with cycle detection optimization |
+| `evolution.py` | Evolutionary selection, crossover, mutation, and SRAC mechanism |
+| `statistics.py` | Post-simulation statistical analysis |
+| `visualization.py` | All matplotlib chart generation functions |
+| `gui.py` | Tkinter GUI, batch experiment runner, and result export |
 
 ## Areas for Contribution
 
 - Performance optimizations for large grid sizes
-- Additional network topologies
-- New visualization modes
+- Additional network topologies (e.g., scale-free networks)
+- New visualization modes and chart types
 - Unit tests and integration tests
 - Documentation improvements
 - Support for extended memory lengths (memory > 1)
+- Additional batch experiment output formats (e.g., JSON, HDF5)
+- Parallel execution for batch experiments
 
 ## Questions?
 

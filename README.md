@@ -2,6 +2,9 @@
 
 **Self-Reputation Awareness Component in Evolutionary Spatial IPD Game**
 
+[![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 A Python 3 simulator for studying the influence of self-reputation awareness on agent behavior in evolutionary spatial Iterated Prisoner's Dilemma (IPD) games. This project is a faithful port of the original Java simulator developed at NCTU CIS Learning Technique Lab (2004-2005).
 
 ## Overview
@@ -14,15 +17,16 @@ The system simulates a population of agents arranged on a 2D spatial network, pl
 
 ## Features
 
-- **Multi-Agent Spatial Simulation** -- N×N grid of agents (default 50×50 = 2,500 agents) playing IPD
-- **Network Topologies** -- Cellular Automata (CA) regular grids and Small-World (SW) networks
-- **Evolutionary Dynamics** -- Selection, crossover, and mutation based on neighborhood fitness
-- **SRAC Mechanism** -- Self-aware agents detect poor fitness/reputation and learn from "socially good" neighbors
-- **16 Deterministic Strategies** -- Memory-1 binary chromosomes including ALL-C, TFT, PAVLOV, ALL-D
-- **Optimized IPD Engine** -- Cycle detection reduces computation from O(n) to O(1) per game
-- **Interactive GUI** -- Tkinter-based interface with real-time visualization and generation scrubbing
-- **CLI Mode** -- Headless execution for scripted batch experiments
-- **Rich Visualization** -- Strategy dynamics charts, fitness trends, spatial lattice display
+- **Multi-Agent Spatial Simulation** — N×N grid of agents (default 50×50 = 2,500 agents) playing IPD
+- **Network Topologies** — Cellular Automata (CA) regular grids and Small-World (SW) networks
+- **Evolutionary Dynamics** — Selection, crossover, and mutation based on neighborhood fitness
+- **SRAC Mechanism** — Self-aware agents detect poor fitness/reputation and learn from "socially good" neighbors
+- **16 Deterministic Strategies** — Memory-1 binary chromosomes including ALL-C, TFT, PAVLOV, ALL-D
+- **Optimized IPD Engine** — Cycle detection reduces computation from O(n) to O(1) per game
+- **Interactive GUI** — Tkinter-based interface with real-time visualization and generation scrubbing
+- **CLI Mode** — Headless execution for scripted batch experiments
+- **Batch Experiments** — Run multiple SRAC ratios with automatic result aggregation, CSV/PNG export
+- **Rich Visualization** — Strategy dynamics, fitness trends, quartile analysis, spatial lattice display, cross-ratio comparison charts
 
 ## Project Structure
 
@@ -31,6 +35,8 @@ SRAC-Agent/
 ├── main.py                # Entry point (GUI & CLI modes)
 ├── requirements.txt       # Python dependencies
 ├── pyproject.toml         # Project metadata & build config
+├── LICENSE                # MIT License
+├── CONTRIBUTING.md        # Contribution guidelines
 └── srac_ipd/              # Main package
     ├── __init__.py        # Package metadata
     ├── parameters.py      # Configuration & constants
@@ -40,7 +46,7 @@ SRAC-Agent/
     ├── evolution.py       # Evolutionary algorithms & SRAC
     ├── statistics.py      # Analysis computations
     ├── visualization.py   # matplotlib charts & lattice display
-    └── gui.py             # Tkinter GUI interface
+    └── gui.py             # Tkinter GUI & batch experiment runner
 ```
 
 ## Installation
@@ -77,6 +83,7 @@ This launches the interactive Tkinter interface where you can:
 - Run evolution with real-time progress
 - Scrub through generations with a slider
 - View multiple analysis charts
+- Run batch experiments across SRAC ratios
 
 ### CLI Mode
 
@@ -119,6 +126,31 @@ python main.py --cli \
     --plot
 ```
 
+### Batch Experiments (GUI)
+
+The GUI provides a batch experiment mode for systematic comparison across multiple SRAC mixing ratios:
+
+1. Go to **Experiment → Run Batch Experiment**
+2. Select network topology (CA or SW)
+3. Enter SRAC ratios (e.g., `0, 0.1, 0.3, 0.5, 1.0`)
+4. Set z-score thresholds and number of runs per ratio
+5. Choose an output directory for results
+
+#### Batch Output Files
+
+The batch experiment automatically generates the following in the selected output directory:
+
+| File | Description |
+|------|-------------|
+| `batch_results.pkl` | Complete results in pickle format (for further analysis) |
+| `avg_fitness_comparison.csv` | Average fitness per generation across all ratios |
+| `four_strategies_ratio_*.csv` | ALL-C, TFT, PAVLOV, ALL-D counts per ratio |
+| `fitness_quartiles_ratio_*.csv` | Top/Bottom 25% fitness per ratio |
+| `chart_avg_fitness_comparison.png` | Fitness comparison chart across ratios |
+| `chart_four_strategies_ratio_*.png` | Four key strategy dynamics per ratio |
+| `chart_fitness_quartiles_ratio_*.png` | Fitness quartile chart per ratio |
+| `chart_strategy_*_comparison.png` | Per-strategy comparison across all ratios |
+
 ## Core Algorithms
 
 ### IPD Game Engine
@@ -135,6 +167,17 @@ Self-aware agents evaluate their fitness and reputation using z-score classifica
 - Agents with **LOW** fitness or reputation seek out "socially good" neighbors (high fitness + high reputation)
 - They copy the strategy of a randomly selected socially good neighbor
 - This mechanism enables agents to escape poor strategies without relying solely on evolutionary pressure
+
+## Visualization
+
+The simulator provides the following chart types:
+
+- **Strategy Dynamics** — Population trends of all 16 strategies over generations
+- **Four Key Strategies** — Focused view on ALL-C, TFT, PAVLOV, and ALL-D with distinct line styles
+- **Average Fitness** — Mean fitness trend across generations
+- **Fitness Quartiles** — Top 25% vs. Bottom 25% fitness comparison
+- **Spatial Lattice** — Color-coded N×N grid showing spatial strategy distribution
+- **Cross-Ratio Comparison** — Per-strategy population trends across different SRAC ratios
 
 ## Origin
 
