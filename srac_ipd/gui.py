@@ -1313,6 +1313,7 @@ class BatchExperimentWindow(tk.Toplevel):
         import csv
         from .visualization import (create_experiment_comparison_chart,
                                     create_four_strategy_chart,
+                                    create_fitness_quartile_chart,
                                     create_strategy_comparison_by_ratio)
 
         ratio_labels = [f"{r:.0%}" for r in self.ratios]
@@ -1379,6 +1380,19 @@ class BatchExperimentWindow(tk.Toplevel):
                     writer.writerow(row)
             saved_files.append(csv_path)
 
+        # ---- Step 2c: Save CSV — fitness quartiles per ratio ----
+        quartile_labels = ['Bottom25%', 'Top25%']
+        for r_idx, ratio in enumerate(self.ratios):
+            csv_path = os.path.join(out, f"fitness_quartiles_ratio_{_ratio_tag(ratio)}.csv")
+            q_data = self.all_fitness_quartiles[r_idx]
+            with open(csv_path, 'w', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow(['Generation'] + quartile_labels)
+                for g in range(gen):
+                    row = [g] + [f"{q_data[g, s]:.2f}" for s in range(2)]
+                    writer.writerow(row)
+            saved_files.append(csv_path)
+
         # ---- Step 3: Generate charts, save PNG, display windows ----
 
         # Chart 1: Average Fitness Comparison (all ratios)
@@ -1401,6 +1415,17 @@ class BatchExperimentWindow(tk.Toplevel):
             fig.savefig(png_path, dpi=150, bbox_inches='tight')
             saved_files.append(png_path)
             _show_chart_window(f"4 Strategies (SRAC={ratio:.0%})", fig)
+
+        # Charts: Fitness Quartiles per ratio
+        for r_idx, ratio in enumerate(self.ratios):
+            q_data = self.all_fitness_quartiles[r_idx]
+            tag = _ratio_tag(ratio)
+            title = f"Top/Bottom 25% Fitness — {self.topology}, SRAC={ratio:.0%}"
+            fig = create_fitness_quartile_chart(q_data, title=title)
+            png_path = os.path.join(out, f"chart_fitness_quartiles_ratio_{tag}.png")
+            fig.savefig(png_path, dpi=150, bbox_inches='tight')
+            saved_files.append(png_path)
+            _show_chart_window(f"Fitness Quartiles (SRAC={ratio:.0%})", fig)
 
         # Charts N+1 ~ N+4: Per-strategy comparison across ratios
         strategy_names = ['ALL-C', 'TFT', 'PAVLOV', 'ALL-D']
@@ -1425,5 +1450,5 @@ class BatchExperimentWindow(tk.Toplevel):
             f"All results saved to:\n{out}\n\n"
             f"Files saved: {len(saved_files)}\n"
             f"  • 1 pickle (.pkl)\n"
-            f"  • {1 + len(self.ratios)} CSV files\n"
-            f"  • {1 + len(self.ratios) + 4} PNG charts")
+            f"  • {1 + 2 * len(self.ratios)} CSV files\n"
+            f"  • {1 + 2 * len(self.ratios) + 4} PNG charts")
