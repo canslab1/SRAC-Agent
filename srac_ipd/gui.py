@@ -1154,8 +1154,14 @@ class SimulationApp(tk.Tk):
                                         "Number of runs per ratio:", initialvalue=1)
         if runs is None: return
 
+        output_dir = filedialog.askdirectory(
+            title="Select Output Directory for Batch Results")
+        if not output_dir:
+            return
+
         BatchExperimentWindow(self, self.params, topology, radius, shortcuts,
-                              ratios, f_low, f_high, r_low, r_high, runs)
+                              ratios, f_low, f_high, r_low, r_high, runs,
+                              output_dir)
 
     # =====================================================================
     #  About  (Java: UI/Version.java)
@@ -1184,7 +1190,8 @@ class BatchExperimentWindow(tk.Toplevel):
     def __init__(self, parent, base_params: SimParameters,
                  topology: str, radius: int, shortcuts: int,
                  ratios: list, f_low: float, f_high: float,
-                 r_low: float, r_high: float, runs: int):
+                 r_low: float, r_high: float, runs: int,
+                 output_dir: str):
         super().__init__(parent)
         self.title(f"Batch Experiment ({topology})")
         self.geometry("500x300")
@@ -1201,6 +1208,7 @@ class BatchExperimentWindow(tk.Toplevel):
         self.f_low, self.f_high = f_low, f_high
         self.r_low, self.r_high = r_low, r_high
         self.runs = runs
+        self.output_dir = output_dir
 
         tk.Label(self, text="Batch Experiment Running...",
                  font=('Helvetica', 12, 'bold')).pack(pady=10)
@@ -1213,6 +1221,9 @@ class BatchExperimentWindow(tk.Toplevel):
         self.progress_bar.pack(fill='x', padx=20, pady=5)
 
         self.all_avg_fitness = None
+        self.all_strategy_counts = {}    # ratio_idx -> np.ndarray(gen, 16)
+        self.all_four_strategies = {}    # ratio_idx -> np.ndarray(gen, 4)
+        self.all_fitness_quartiles = {}  # ratio_idx -> np.ndarray(gen, 2)
         self._experiment_done = False
         self._experiment_error = None   # Stores traceback if background thread crashes
         self._sim_count = 0
@@ -1232,6 +1243,10 @@ class BatchExperimentWindow(tk.Toplevel):
             sim_count = 0
             for r_idx, ratio in enumerate(self.ratios):
                 ratio_total_fitness = np.zeros(gen, dtype=float)
+                ratio_total_strategy = np.zeros((gen, 16), dtype=float)
+                ratio_total_four = np.zeros((gen, 4), dtype=float)
+                ratio_total_quartiles = np.zeros((gen, 2), dtype=float)
+
                 for run_idx in range(self.runs):
                     self._current_status = f"Ratio {ratio:.0%}, Run {run_idx+1}/{self.runs}"
                     sim_count += 1
@@ -1254,7 +1269,20 @@ class BatchExperimentWindow(tk.Toplevel):
                         g = s['generation']
                         ratio_total_fitness[g] += s['avg_fitness']
 
+                    # Compute statistics from this run's history
+                    counts = compute_strategy_counts(
+                        engine.history, params.strategy_length)
+                    four = extract_four_strategies(counts)
+                    quartiles = compute_fitness_quartiles(engine.history)
+                    ratio_total_strategy += counts
+                    ratio_total_four += four
+                    ratio_total_quartiles += quartiles
+
+                # Average across runs for this ratio
                 self.all_avg_fitness[:, r_idx] = ratio_total_fitness / self.runs
+                self.all_strategy_counts[r_idx] = ratio_total_strategy / self.runs
+                self.all_four_strategies[r_idx] = ratio_total_four / self.runs
+                self.all_fitness_quartiles[r_idx] = ratio_total_quartiles / self.runs
         except Exception:
             import traceback
             self._experiment_error = traceback.format_exc()
@@ -1281,17 +1309,121 @@ class BatchExperimentWindow(tk.Toplevel):
             self.after(500, self._poll_experiment)
 
     def _show_results(self):
-        from .visualization import create_experiment_comparison_chart
+        import os
+        import csv
+        from .visualization import (create_experiment_comparison_chart,
+                                    create_four_strategy_chart,
+                                    create_strategy_comparison_by_ratio)
+
         ratio_labels = [f"{r:.0%}" for r in self.ratios]
-        fig = create_experiment_comparison_chart(
+        out = self.output_dir
+        saved_files = []
+
+        # Helper: ratio percentage string for filenames (e.g. "0pct", "10pct")
+        def _ratio_tag(ratio):
+            return f"{int(ratio * 100)}pct"
+
+        # Helper: show a chart in a Toplevel window
+        def _show_chart_window(title, fig):
+            win = tk.Toplevel(self)
+            win.title(title)
+            win.geometry("850x550")
+            canvas = FigureCanvasTkAgg(fig, master=win)
+            canvas.draw()
+            toolbar = NavigationToolbar2Tk(canvas, win)
+            toolbar.update()
+            canvas.get_tk_widget().pack(fill='both', expand=True)
+
+        # ---- Step 1: Save pickle ----
+        pkl_path = os.path.join(out, "batch_results.pkl")
+        data = {
+            'params': self.base_params.copy(),
+            'topology': self.topology,
+            'radius': self.radius,
+            'shortcuts': self.shortcuts,
+            'ratios': self.ratios,
+            'runs': self.runs,
+            'thresholds': (self.f_low, self.f_high, self.r_low, self.r_high),
+            'avg_fitness': self.all_avg_fitness,
+            'strategy_counts': self.all_strategy_counts,
+            'four_strategies': self.all_four_strategies,
+            'fitness_quartiles': self.all_fitness_quartiles,
+        }
+        with open(pkl_path, 'wb') as f:
+            pickle.dump(data, f)
+        saved_files.append(pkl_path)
+
+        # ---- Step 2: Save CSV — average fitness comparison ----
+        csv_path = os.path.join(out, "avg_fitness_comparison.csv")
+        gen = self.all_avg_fitness.shape[0]
+        with open(csv_path, 'w', newline='') as f:
+            writer = csv.writer(f)
+            header = ['Generation'] + [f"SRAC_{_ratio_tag(r)}" for r in self.ratios]
+            writer.writerow(header)
+            for g in range(gen):
+                row = [g] + [f"{self.all_avg_fitness[g, ri]:.2f}"
+                             for ri in range(len(self.ratios))]
+                writer.writerow(row)
+        saved_files.append(csv_path)
+
+        # ---- Step 2b: Save CSV — four key strategies per ratio ----
+        four_labels = ['ALL-C', 'TFT', 'PAVLOV', 'ALL-D']
+        for r_idx, ratio in enumerate(self.ratios):
+            csv_path = os.path.join(out, f"four_strategies_ratio_{_ratio_tag(ratio)}.csv")
+            four_data = self.all_four_strategies[r_idx]
+            with open(csv_path, 'w', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow(['Generation'] + four_labels)
+                for g in range(gen):
+                    row = [g] + [f"{four_data[g, s]:.2f}" for s in range(4)]
+                    writer.writerow(row)
+            saved_files.append(csv_path)
+
+        # ---- Step 3: Generate charts, save PNG, display windows ----
+
+        # Chart 1: Average Fitness Comparison (all ratios)
+        fig1 = create_experiment_comparison_chart(
             self.all_avg_fitness, ratio_labels,
             title=f"Average Fitness Comparison ({self.topology})",
             ylabel="Average Fitness")
-        win = tk.Toplevel(self)
-        win.title("Experiment Results")
-        win.geometry("850x550")
-        canvas = FigureCanvasTkAgg(fig, master=win)
-        canvas.draw()
-        toolbar = NavigationToolbar2Tk(canvas, win)
-        toolbar.update()
-        canvas.get_tk_widget().pack(fill='both', expand=True)
+        png_path = os.path.join(out, "chart_avg_fitness_comparison.png")
+        fig1.savefig(png_path, dpi=150, bbox_inches='tight')
+        saved_files.append(png_path)
+        _show_chart_window("Avg Fitness Comparison", fig1)
+
+        # Charts 2~N: Four key strategies per ratio
+        for r_idx, ratio in enumerate(self.ratios):
+            four_data = self.all_four_strategies[r_idx]
+            tag = _ratio_tag(ratio)
+            title = f"Four Key Strategies — {self.topology}, SRAC={ratio:.0%}"
+            fig = create_four_strategy_chart(four_data, title=title)
+            png_path = os.path.join(out, f"chart_four_strategies_ratio_{tag}.png")
+            fig.savefig(png_path, dpi=150, bbox_inches='tight')
+            saved_files.append(png_path)
+            _show_chart_window(f"4 Strategies (SRAC={ratio:.0%})", fig)
+
+        # Charts N+1 ~ N+4: Per-strategy comparison across ratios
+        strategy_names = ['ALL-C', 'TFT', 'PAVLOV', 'ALL-D']
+        strategy_file_tags = ['ALLC', 'TFT', 'PAVLOV', 'ALLD']
+        for s_idx, (s_name, s_tag) in enumerate(zip(strategy_names, strategy_file_tags)):
+            # Build matrix (generations, n_ratios) for this strategy
+            strategy_data = np.zeros((gen, len(self.ratios)), dtype=float)
+            for r_idx in range(len(self.ratios)):
+                strategy_data[:, r_idx] = self.all_four_strategies[r_idx][:, s_idx]
+
+            title = f"{s_name} Population — {self.topology} SRAC Ratio Comparison"
+            fig = create_strategy_comparison_by_ratio(
+                strategy_data, ratio_labels, s_name, title=title)
+            png_path = os.path.join(out, f"chart_strategy_{s_tag}_comparison.png")
+            fig.savefig(png_path, dpi=150, bbox_inches='tight')
+            saved_files.append(png_path)
+            _show_chart_window(f"{s_name} Comparison", fig)
+
+        # ---- Step 4: Show completion message ----
+        messagebox.showinfo(
+            "Batch Experiment Complete",
+            f"All results saved to:\n{out}\n\n"
+            f"Files saved: {len(saved_files)}\n"
+            f"  • 1 pickle (.pkl)\n"
+            f"  • {1 + len(self.ratios)} CSV files\n"
+            f"  • {1 + len(self.ratios) + 4} PNG charts")

@@ -328,6 +328,58 @@ def create_fitness_quartile_chart(quartile_data: np.ndarray,
     return fig
 
 
+def create_strategy_comparison_by_ratio(strategy_data: np.ndarray,
+                                        ratio_labels: List[str],
+                                        strategy_name: str,
+                                        title: str = "",
+                                        figsize: Tuple[float, float] = (10, 6)) -> Figure:
+    """
+    Create a comparison chart for a single strategy across different SRAC ratios.
+
+    Shows how one strategy's population evolves over generations under different
+    SRAC agent mixing ratios, enabling direct comparison of SRAC's influence
+    on that particular strategy.
+
+    Corresponds to Java: A cross-experiment comparison that the original Java
+    version aggregated manually. This automates the comparison.
+
+    Args:
+        strategy_data: Array of shape (generations, n_ratios) where each column
+                       is the average agent count for this strategy under one ratio
+        ratio_labels: Labels for each ratio (e.g., ["0%", "10%", "30%"])
+        strategy_name: Name of the strategy (e.g., "ALL-C", "TFT")
+        title: Chart title (auto-generated if empty)
+        figsize: Figure size
+
+    Returns:
+        matplotlib Figure
+    """
+    num_gen, num_ratios = strategy_data.shape
+    generations = np.arange(num_gen)
+
+    if not title:
+        title = f"{strategy_name} Population — SRAC Ratio Comparison"
+
+    fig = Figure(figsize=figsize, dpi=100)
+    ax = fig.add_subplot(111)
+
+    for r in range(num_ratios):
+        ax.plot(generations, strategy_data[:, r],
+                color=EXPERIMENT_COLORS[r % len(EXPERIMENT_COLORS)],
+                linewidth=2.0,
+                label=ratio_labels[r] if r < len(ratio_labels) else f"Ratio {r}")
+
+    ax.set_xlabel('Generations', fontsize=12)
+    ax.set_ylabel('Number of Agents (averaged)', fontsize=12)
+    ax.set_title(title, fontsize=14)
+    ax.set_xlim(0, num_gen - 1)
+    ax.set_ylim(0, max(1, int(np.max(strategy_data) * 1.5)))
+    ax.legend(fontsize=10, loc='best')
+    ax.grid(True, alpha=0.3)
+    fig.tight_layout()
+    return fig
+
+
 def create_experiment_comparison_chart(fitness_data: np.ndarray,
                                        ratio_labels: List[str],
                                        title: str = "Experiment Comparison",
