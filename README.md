@@ -11,7 +11,7 @@ A Python 3 simulator for studying the influence of self-reputation awareness on 
 
 This simulator implements the model described in:
 
-> Chung-Yuan Huang and Chun-Liang Lee, "Influences of Agents with a Self-Reputation Awareness Component in an Evolutionary Spatial IPD Game," *PLoS ONE*.
+> Huang, C.-Y. & Lee, C.-L. (2014). Influences of Agents with a Self-Reputation Awareness Component in an Evolutionary Spatial IPD Game. *PLOS ONE*, 9(6), e99841. https://doi.org/10.1371/journal.pone.0099841
 
 The system simulates a population of agents arranged on a 2D spatial network, playing the Iterated Prisoner's Dilemma with their neighbors. Agents evolve over generations through genetic crossover and mutation. The key innovation is the **Self-Reputation Awareness Component (SRAC)**, where agents can evaluate their own fitness and reputation relative to neighbors and adapt their strategies accordingly.
 
@@ -189,6 +189,10 @@ This Python implementation is a faithful port of the Java simulator originally d
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+## References
+
+1. Huang, C.-Y. & Lee, C.-L. (2014). Influences of Agents with a Self-Reputation Awareness Component in an Evolutionary Spatial IPD Game. *PLOS ONE*, 9(6), e99841. https://doi.org/10.1371/journal.pone.0099841
 
 ## Contributing
 
