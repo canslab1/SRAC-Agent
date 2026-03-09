@@ -32,7 +32,7 @@ The system simulates a population of agents arranged on a 2D spatial network, pl
 
 ### Prerequisites
 
-- Python 3.9 or higher
+- Python 3.10 or higher
 - tkinter (usually included with Python; on Linux: `sudo apt install python3-tk`)
 
 ### Setup
