@@ -1,0 +1,53 @@
+cff-version: 1.2.0
+title: >-
+  SRAC-Agent: Self-Reputation Awareness Component in
+  Evolutionary Spatial IPD Game
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Chung-Yuan
+    family-names: Huang
+    affiliation: >-
+      Department of Computer Science and Information
+      Engineering, Chang Gung University, Taiwan
+    email: gscott@mail.cgu.edu.tw
+  - given-names: Chun-Liang
+    family-names: Lee
+repository-code: 'https://github.com/canslab1/SRAC-Agent'
+url: 'https://github.com/canslab1/SRAC-Agent'
+abstract: >-
+  A Python 3 simulator for studying the influence of
+  self-reputation awareness on agent behavior in
+  evolutionary spatial Iterated Prisoner's Dilemma (IPD)
+  games. Agents on an N×N grid play IPD with neighbors
+  using 16 deterministic memory-1 strategies, with
+  evolutionary selection, crossover, mutation, and an
+  optional SRAC mechanism.
+keywords:
+  - game theory
+  - prisoners dilemma
+  - multi-agent system
+  - evolutionary computation
+  - reputation
+  - spatial game
+license: MIT
+version: 1.1.0
+date-released: '2025-01-01'
+preferred-citation:
+  type: article
+  authors:
+    - given-names: Chung-Yuan
+      family-names: Huang
+    - given-names: Chun-Liang
+      family-names: Lee
+  title: >-
+    Influences of Agents with a Self-Reputation Awareness
+    Component in an Evolutionary Spatial IPD Game
+  journal: PLOS ONE
+  year: 2014
+  volume: '9'
+  issue: '6'
+  pages: e99841
+  doi: 10.1371/journal.pone.0099841

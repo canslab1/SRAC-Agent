@@ -2,8 +2,8 @@
 
 **Self-Reputation Awareness Component in Evolutionary Spatial IPD Game**
 
-[![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)
+![License: MIT](https://img.shields.io/badge/License-MIT-green)
 
 A Python 3 simulator for studying the influence of self-reputation awareness on agent behavior in evolutionary spatial Iterated Prisoner's Dilemma (IPD) games. This project is a faithful port of the original Java simulator developed at NCTU CIS Learning Technique Lab (2004-2005).
 
