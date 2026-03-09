@@ -28,27 +28,6 @@ The system simulates a population of agents arranged on a 2D spatial network, pl
 - **Batch Experiments** — Run multiple SRAC ratios with automatic result aggregation, CSV/PNG export
 - **Rich Visualization** — Strategy dynamics, fitness trends, quartile analysis, spatial lattice display, cross-ratio comparison charts
 
-## Project Structure
-
-```
-SRAC-Agent/
-├── main.py                # Entry point (GUI & CLI modes)
-├── requirements.txt       # Python dependencies
-├── pyproject.toml         # Project metadata & build config
-├── LICENSE                # MIT License
-├── CONTRIBUTING.md        # Contribution guidelines
-└── srac_ipd/              # Main package
-    ├── __init__.py        # Package metadata
-    ├── parameters.py      # Configuration & constants
-    ├── agent.py           # Agent model with chromosomes
-    ├── network.py         # Network topologies (CA, SW)
-    ├── ipd_game.py        # IPD game engine (optimized)
-    ├── evolution.py       # Evolutionary algorithms & SRAC
-    ├── statistics.py      # Analysis computations
-    ├── visualization.py   # matplotlib charts & lattice display
-    └── gui.py             # Tkinter GUI & batch experiment runner
-```
-
 ## Installation
 
 ### Prerequisites
@@ -185,6 +164,27 @@ This Python implementation is a faithful port of the Java simulator originally d
 
 - **Original Author:** HikiChen, NCTU CIS Learning Technique Lab (2004–2005)
 - **Python Conversion:** Assisted by Claude (Anthropic)
+
+## Project Structure
+
+```
+SRAC-Agent/
+├── main.py                # Entry point (GUI & CLI modes)
+├── requirements.txt       # Python dependencies
+├── pyproject.toml         # Project metadata & build config
+├── LICENSE                # MIT License
+├── CONTRIBUTING.md        # Contribution guidelines
+└── srac_ipd/              # Main package
+    ├── __init__.py        # Package metadata
+    ├── parameters.py      # Configuration & constants
+    ├── agent.py           # Agent model with chromosomes
+    ├── network.py         # Network topologies (CA, SW)
+    ├── ipd_game.py        # IPD game engine (optimized)
+    ├── evolution.py       # Evolutionary algorithms & SRAC
+    ├── statistics.py      # Analysis computations
+    ├── visualization.py   # matplotlib charts & lattice display
+    └── gui.py             # Tkinter GUI & batch experiment runner
+```
 
 ## Authors
 
