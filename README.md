@@ -186,13 +186,18 @@ This Python implementation is a faithful port of the Java simulator originally d
 - **Original Author:** HikiChen, NCTU CIS Learning Technique Lab (2004–2005)
 - **Python Conversion:** Assisted by Claude (Anthropic)
 
-## License
+## Authors
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+- **Chung-Yuan Huang** (黃崇源) — Department of Computer Science and Information Engineering, Chang Gung University, Taiwan (gscott@mail.cgu.edu.tw)
+- **Chun-Liang Lee** — National Chiao Tung University, Taiwan
 
 ## References
 
 1. Huang, C.-Y. & Lee, C.-L. (2014). Influences of Agents with a Self-Reputation Awareness Component in an Evolutionary Spatial IPD Game. *PLOS ONE*, 9(6), e99841. https://doi.org/10.1371/journal.pone.0099841
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ## Contributing
 
