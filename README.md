@@ -191,6 +191,14 @@ SRAC-Agent/
 - **Chung-Yuan Huang** (黃崇源) — Department of Computer Science and Information Engineering, Chang Gung University, Taiwan (gscott@mail.cgu.edu.tw)
 - **Chun-Liang Lee** — National Chiao Tung University, Taiwan
 
+## Citation
+
+If you use this software in your research, please cite:
+
+> Huang, C.-Y. & Lee, C.-L. (2014). Influences of Agents with a Self-Reputation Awareness Component in an Evolutionary Spatial IPD Game. *PLOS ONE*, 9(6), e99841. https://doi.org/10.1371/journal.pone.0099841
+
+See `CITATION.cff` for machine-readable citation metadata.
+
 ## References
 
 1. Huang, C.-Y. & Lee, C.-L. (2014). Influences of Agents with a Self-Reputation Awareness Component in an Evolutionary Spatial IPD Game. *PLOS ONE*, 9(6), e99841. https://doi.org/10.1371/journal.pone.0099841
