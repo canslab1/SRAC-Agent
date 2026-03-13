@@ -4,6 +4,7 @@
 
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green)
+[![CANS Lab](https://img.shields.io/badge/CANS_Lab-Homepage-orange)](https://canslab1.github.io/)
 
 A Python 3 simulator for studying the influence of self-reputation awareness on agent behavior in evolutionary spatial Iterated Prisoner's Dilemma (IPD) games. This project is a faithful port of the original Java simulator developed at NCTU CIS Learning Technique Lab (2004-2005).
 
