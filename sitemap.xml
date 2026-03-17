@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://canslab1.github.io/SRAC-Agent/</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-03-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://canslab1.github.io/images/software/srac-strategies.png</image:loc>
+      <image:title>SRAC strategy distribution visualization — SRAC-Agent by Prof. Chung-Yuan Huang (黃崇源教授)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://canslab1.github.io/images/software/srac-evolved.png</image:loc>
+      <image:title>SRAC evolved cooperation patterns — SRAC-Agent by Prof. Chung-Yuan Huang (黃崇源教授)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://canslab1.github.io/images/software/srac-initial.png</image:loc>
+      <image:title>SRAC initial configuration — SRAC-Agent by Prof. Chung-Yuan Huang (黃崇源教授)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://canslab1.github.io/images/software/srac-paper.png</image:loc>
+      <image:title>SRAC-Agent research paper figure — SRAC-Agent by Prof. Chung-Yuan Huang (黃崇源教授)</image:title>
+    </image:image>
   </url>
 </urlset>
