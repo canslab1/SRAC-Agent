@@ -13,12 +13,13 @@ authors:
       Department of Computer Science and Information
       Engineering, Chang Gung University, Taiwan
     email: gscott@mail.cgu.edu.tw
+    orcid: "https://orcid.org/0000-0002-8680-6755"
   - given-names: Chun-Liang
     family-names: Lee
     affiliation: >-
       National Chiao Tung University, Taiwan
 repository-code: 'https://github.com/canslab1/SRAC-Agent'
-url: 'https://github.com/canslab1/SRAC-Agent'
+url: 'https://canslab1.github.io/SRAC-Agent/'
 abstract: >-
   A Python 3 simulator for studying the influence of
   self-reputation awareness on agent behavior in
@@ -36,7 +37,7 @@ keywords:
   - spatial game
 license: MIT
 version: 1.1.0
-date-released: '2025-01-01'
+date-released: '2026-03-01'
 preferred-citation:
   type: article
   authors:

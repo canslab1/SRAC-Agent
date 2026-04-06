@@ -175,6 +175,13 @@ SRAC-Agent/
 ├── pyproject.toml         # Project metadata & build config
 ├── LICENSE                # MIT License
 ├── CONTRIBUTING.md        # Contribution guidelines
+├── CHANGELOG.md           # Version history
+├── CITATION.cff           # Citation metadata
+├── index.html             # GitHub Pages landing page
+├── 404.html               # Custom 404 error page
+├── sitemap.xml            # XML sitemap for search engines
+├── robots.txt             # Crawler directives
+├── llms.txt               # AI-readable project summary
 └── srac_ipd/              # Main package
     ├── __init__.py        # Package metadata
     ├── parameters.py      # Configuration & constants

@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## v1.1.0 (2025)
+## v1.1.0 (2026-03-01)
 
 ### Added
 - Batch experiment mode with systematic comparison across multiple SRAC ratios
@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Removed dead code, unused imports, and redundant comments
 - Corrected LICENSE copyright holders
 
-## v1.0.0 (2025)
+## v1.0.0 (2026-03-01)
 
 Initial public release — faithful Python 3 port from original Java simulator.
 

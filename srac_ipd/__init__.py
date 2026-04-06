@@ -23,4 +23,4 @@ Modules:
 """
 
 __version__ = "1.1.0"
-__author__ = "Converted from Java by Claude; Original: HikiChen, NCTU CIS"
+__author__ = "Chung-Yuan Huang, Chun-Liang Lee"
