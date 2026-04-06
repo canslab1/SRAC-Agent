@@ -21,8 +21,8 @@
 
 ## Publication
 
-Huang, C.-Y. (2014). Influence of self-reputation awareness on cooperation in spatial evolutionary games. PLOS ONE, 9(1), e84920.
-DOI: https://doi.org/10.1371/journal.pone.0084920
+Huang, C.-Y. & Lee, C.-L. (2014). Influences of Agents with a Self-Reputation Awareness Component in an Evolutionary Spatial IPD Game. PLOS ONE, 9(6), e99841.
+DOI: https://doi.org/10.1371/journal.pone.0099841
 
 ## Lab
 
