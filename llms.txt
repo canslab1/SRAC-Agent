@@ -2,14 +2,17 @@
 
 > SRAC-Agent is a Python 3 simulator for studying the influence of self-reputation awareness on agent behavior in evolutionary spatial Iterated Prisoner's Dilemma games, demonstrating how self-awareness of reputation promotes cooperation.
 
-## Author
+## Authors
 
-- Name: Chung-Yuan Huang (黃崇源)
+- Name: Chung-Yuan Huang (黃崇源) (corresponding author)
 - Title: Full Professor, Department of CSIE, Chang Gung University
 - Email: gscott@mail.cgu.edu.tw
 - ORCID: https://orcid.org/0000-0002-8680-6755
 - Google Scholar: https://scholar.google.com/citations?user=0klfzfAAAAAJ&hl=en
 - Homepage: https://canslab1.github.io/
+
+- Name: Chun-Liang Lee
+- Affiliation: National Chiao Tung University, Taiwan
 
 ## Software
 
